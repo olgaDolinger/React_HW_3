@@ -6,5 +6,12 @@ export const FilmCategoryMenu = styled.div`
 `;
 
 export const FilmCategoryMenuItem = styled.div`
-    margin: 0 5px
+  cursor: pointer;
+  border-bottom: 4px solid #555555;
+  height: 25px;
+  padding: 0 8px;
+
+  &:hover {
+    border-bottom: 4px solid #f65261;
+  }
 `;

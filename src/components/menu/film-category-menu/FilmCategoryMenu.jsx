@@ -13,7 +13,7 @@ const FilmCategoryMenu = () => {
   return (
       <S.FilmCategoryMenu>
         {Object.keys(Categories).map((key) => (
-          <S.FilmCategoryMenuItem>{Categories[key]}</S.FilmCategoryMenuItem>
+          <S.FilmCategoryMenuItem key={key}>{Categories[key]}</S.FilmCategoryMenuItem>
         ))}
       </S.FilmCategoryMenu>
   );

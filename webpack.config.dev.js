@@ -41,21 +41,17 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
-        test: /\.(ttf)$/,
+        test: /\.(ttf|png)$/i,
         loader: "file-loader",
-        options: {
-          name: "[path][name].[ext]?[path]",
-        },
       },
       {
-        test: /\.png$/,
+        test: /\.svg$/,
         use: [
           {
+            loader: 'svg-url-loader',
             options: {
-              name: "[name].[ext]",
-              outputPath: "images/",
+              limit: 10000,
             },
-            loader: "file-loader",
           },
         ],
       },
