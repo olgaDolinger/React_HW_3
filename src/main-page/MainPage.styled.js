@@ -9,6 +9,6 @@ export const MainPage = styled.div`
 `;
 
 export const Films = styled.div`
-  display: inline-flex;
+  display: flex;
   flex-wrap: wrap;
 `;

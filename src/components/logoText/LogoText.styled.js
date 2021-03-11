@@ -1,5 +1,6 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const Logo = styled.div`
-    color: #F65261
+  color: #f65261;
+  cursor: pointer;
 `;

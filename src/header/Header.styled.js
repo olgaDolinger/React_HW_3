@@ -18,11 +18,7 @@ export const TopHeader = styled.div`
 `;
 
 export const SearchHeader = styled.div`
-  width: 100%;
-  display: inline-flex;
-  top: 50px;
-  flex-direction: row;
-  justify-content: space-between;
+  margin: auto 50px;
 }
 `;
 
@@ -35,11 +31,13 @@ export const ButtonAddMovie = styled.div`
   text-align: center;
   display: inline-block;
   font-size: 16px;
+  cursor: pointer;
+  border: none;
   border-radius: 3px;
+  
+  &:hover{
+    background-color: #fb6876;
+    color: #ffffff;
+  }
 `;
 
-export const HeaderMainText = styled.div`
-  color: white;
-  font-size: 32px;
-  padding-top: 55px;
-`;
