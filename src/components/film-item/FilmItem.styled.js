@@ -27,7 +27,6 @@ export const FilmData = styled.div`
 `;
 
 export const FilmImage = styled.div`
-
   width: 300px;
   height: 400px;
   background-image: url(${(props) => props.image});

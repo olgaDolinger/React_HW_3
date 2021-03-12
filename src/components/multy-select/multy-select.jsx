@@ -1,19 +1,31 @@
-import React from "react";
-import * as S from "./multy-select.styled";
+import React, { useMemo } from "react";
 import { Categories } from "../../utils/Categories";
+import * as S from "./multy-select.styled";
+
+const categories = [
+  { value: "0", label: Categories.ActionAdventure },
+  { value: "1", label: Categories.Biography },
+  { value: "2", label: Categories.Music },
+  { value: "3", label: Categories.OscarWinningFilm },
+];
+
+const useGetSelected = (data) => {
+  return useMemo(() => {
+    let res = [];
+    data.forEach((category) => {
+      const value = categories.find((item) => {
+        return item.label === category;
+      });
+      res.push(value);
+    });
+    return res;
+  }, [data]);
+};
 
 const MultiSelect = (props) => {
-  const categories = [
-    { value: "0", label: Categories.ActionAdventure },
-    { value: "1", label: Categories.Biography },
-    { value: "2", label: Categories.Music },
-    { value: "3", label: Categories.OscarWinningFilm },
-  ];
-
   const colourStyles = {
     control: (styles) => ({ ...styles, backgroundColor: "#232323" }),
-    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-      const color = data.color;
+    option: (styles, ) => {
       return {
         ...styles,
         backgroundColor: "#ffffff",
@@ -26,8 +38,7 @@ const MultiSelect = (props) => {
         },
       };
     },
-    multiValue: (styles, { data }) => {
-      const color = "#FB6876";
+    multiValue: (styles ) => {
       return {
         ...styles,
         backgroundColor: "#FB6876",
@@ -46,17 +57,7 @@ const MultiSelect = (props) => {
       },
     }),
   };
-
-  const getSelected = () => {
-    let res = [];
-    props.selected.forEach((category) => {
-      const value = categories.find((item) => {
-        return item.label === category;
-      });
-      res.push(value);
-    });
-    return res;
-  };
+  const categoriesSelected = useGetSelected(props.selected);
 
   const onCategoryChange = (selected) => {
     const category = [];
@@ -68,7 +69,7 @@ const MultiSelect = (props) => {
 
   return (
     <S.MultiSelect
-      value={getSelected()}
+      value={categoriesSelected}
       styles={colourStyles}
       isMulti
       options={categories}
