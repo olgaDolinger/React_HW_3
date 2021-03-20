@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import * as S from "./FilmItem.styled";
 import EditButton from "./edit-button/EditButton";
 import { Actions } from "../../utils/Categories";
+import * as S from "./FilmItem.styled";
 
 const FilmItem = (props) => {
   const { id, title, category, year, url, overview, runtime } = props;
@@ -23,25 +23,30 @@ const FilmItem = (props) => {
     });
   };
 
-  const onDelete = () => {
+  const onDelete = (event) => {
+
     props.deleteFilm({ action: Actions.deleteFilm, data: id });
   };
 
+  const onClick = () => {
+    props.onClick(id);
+  };
+
   return (
-    <S.FilmItem>
+    <S.FilmItem onMouseLeave={onMouseLeave}>
+      {isEditButtonVisible && (
+        <EditButton
+          onClick={onEditButton}
+          editFilm={onEditButton}
+          deleteFilm={onDelete}
+          onMouseOver={onMouseEnter}
+        />
+      )}
       <S.FilmImage
         image={url}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-      >
-        {isEditButtonVisible && (
-          <EditButton
-            onClick={onEditButton}
-            editFilm={onEditButton}
-            deleteFilm={onDelete}
-          />
-        )}
-      </S.FilmImage>
+        onMouseOver={onMouseEnter}
+        onClick={onClick}
+      ></S.FilmImage>
       <S.FilmData>
         <div>{title}</div>
         <S.FilmYear>{year}</S.FilmYear>

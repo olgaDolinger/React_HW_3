@@ -5,16 +5,19 @@ import SortingMenu from "../components/menu/sorting-menu/SortingMenu";
 import Counter from "../components/counter/Counter";
 import FilmItem from "../components/film-item/FilmItem";
 
-
 import ErrorBoundary from "../components/error-boundary/ErrorBoundary";
+import * as PropTypes from "prop-types";
 
 const MainPage = (props) => {
+
+  const onClick = (data) => {
+      props.onMovieClick(data);
+  };
   return (
     <S.MainPage>
       <FilmCategoryMenu />
       <SortingMenu />
       <Counter numMovies={props.movies.length} />
-
       <ErrorBoundary>
         <S.Films>
           {props.movies.map((film) => {
@@ -30,6 +33,7 @@ const MainPage = (props) => {
                 runtime={film.runtime}
                 deleteFilm={props.deleteFilm}
                 editFilm={props.editFilm}
+                onClick={onClick}
               />
             );
           })}
@@ -37,6 +41,13 @@ const MainPage = (props) => {
       </ErrorBoundary>
     </S.MainPage>
   );
+};
+
+MainPage.propTypes = {
+  onMovieClick: PropTypes.func.isRequired,
+  editFilm: PropTypes.func.isRequired,
+  deleteFilm: PropTypes.func.isRequired,
+  movies: PropTypes.array.isRequired,
 };
 
 export default MainPage;

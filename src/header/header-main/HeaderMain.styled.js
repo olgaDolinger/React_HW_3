@@ -1,13 +1,5 @@
 import styled from "styled-components";
 
-export const Header = styled.div`
-  width: 85%;
-  height: 250px;
-  margin: 0 auto;
-  background-color: #232323;
-  padding: 10px;
-`;
-
 export const TopHeader = styled.div`
   width: 100%;
   display: inline-flex;
@@ -40,4 +32,3 @@ export const ButtonAddMovie = styled.div`
     color: #ffffff;
   }
 `;
-

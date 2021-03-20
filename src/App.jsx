@@ -1,71 +1,88 @@
-import * as React from "react";
-import Header from "./header/Header";
+import React, { useState, useMemo } from "react";
+import HeaderContainer from "./header/HeaderContainer";
 import MainPage from "./main-page/MainPage";
 import Footer from "./footer/Footer";
-import * as S from "./App.styled";
 import PopoutManager from "./components/popups/popupManager/PopoutManager";
 import { Actions } from "./utils/Categories";
 import { Films } from "./utils/Data";
+import * as S from "./App.styled";
 
-class App extends React.Component {
-  data = [];
+const App = () => {
+  let films = Films;
 
-  constructor(props) {
-    super(props);
-    this.data = Films;
-    this.state = { currentPopup: "", popupData: "" };
-  }
+  const [currentPopup, setCurrentPopup] = useState("");
+  const [popupData, setPopupData] = useState("");
+  const [selectedMovieId, setSelectedMovieId] = useState(null);
 
-  doAction = (payload) => {
-    this.setState({ currentPopup: payload.action, popupData: payload.data });
+  const doAction = (payload) => {
+    setCurrentPopup(payload.action);
+    setPopupData(payload.data);
   };
 
-  closePopup = () => {
-    this.setState({ currentPopup: "" });
+  const closePopup = () => {
+    setCurrentPopup("");
   };
 
-  confirmPopup = (data) => {
-    switch (data.action) {
+  const confirmPopup = (payload) => {
+    switch (payload.action) {
       case Actions.addFilm: {
-        console.log(data);
-        const id = this.data.length;
-        const newMovie = Object.assign({}, data.popupData, { id });
-        this.data.push(newMovie);
+        const id = films.length;
+        const newMovie = Object.assign({}, payload.popupData, { id });
+        films.push(newMovie);
         break;
       }
       case Actions.editFilm: {
-        console.log(data);
-        this.data[data.popupData.id] = data.popupData;
+        films[payload.popupData.id] = payload.popupData;
         break;
       }
       case Actions.deleteFilm: {
-        const index = this.data.filter((item) => item.id == data.id);
-        this.data.splice(index, 1);
+        if (payload.popupData === selectedMovieId) {
+          setSelectedMovieId(null);
+        }
+        const index = films.findIndex((item) => item.id === payload.popupData);
+        films.splice(index, 1);
         break;
       }
     }
-    this.closePopup();
+    closePopup();
   };
 
-  render() {
-    return (
-      <S.App>
-        <S.GlobalStyle />
-        <PopoutManager
-          popup={this.state.currentPopup}
-          data={this.state.popupData}
-          closePopup={this.closePopup}
-          confirmPopup={this.confirmPopup}
-        />
-        <Header addMovie={this.doAction} />
-        <MainPage
-          editFilm={this.doAction}
-          deleteFilm={this.doAction}
-          movies={this.data}
-        />
-        <Footer />
-      </S.App>
-    );
-  }
-}
+  const onMovieClick = (id) => {
+    setSelectedMovieId(id);
+  };
+
+  const movieData = useMemo(() => {
+    if (selectedMovieId != null) {
+      return films.find((item) => item.id === selectedMovieId);
+    } else return null;
+  }, [selectedMovieId, films]);
+
+  const closeMovieDetails = () => {
+    setSelectedMovieId(null);
+  };
+
+  return (
+    <S.App>
+      <S.GlobalStyle />
+      <PopoutManager
+        popup={currentPopup}
+        data={popupData}
+        closePopup={closePopup}
+        confirmPopup={confirmPopup}
+      />
+      <HeaderContainer
+        addMovie={doAction}
+        data={movieData}
+        closeMovieDetails={closeMovieDetails}
+      />
+      <MainPage
+        editFilm={doAction}
+        deleteFilm={doAction}
+        movies={films}
+        onMovieClick={onMovieClick}
+      />
+      <Footer />
+    </S.App>
+  );
+};
 export default App;

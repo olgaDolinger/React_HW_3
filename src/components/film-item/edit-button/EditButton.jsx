@@ -5,8 +5,7 @@ import PropTypes from "prop-types";
 
 const EditButton = (props) => {
   const [isMenuVisible, setMenuVisible] = useState(false);
-
-  const editButton = React.createRef();
+  const editButton = React.useRef([]);
 
   const Menu = { Edit: "Edit", Delete: "Delete" };
 
@@ -14,8 +13,10 @@ const EditButton = (props) => {
     setMenuVisible(!isMenuVisible);
   };
 
-  const onClickHandler = (event) => {
-    const selected = editButton.current.innerHTML;
+  const onClickHandler = (event, target) => {
+    event.stopPropagation();
+
+    const selected = target.innerHTML;
     if (selected.length > 0) {
       if (selected === Menu.Edit) {
         props.editFilm();
@@ -32,12 +33,8 @@ const EditButton = (props) => {
       )}
       {isMenuVisible && (
         <S.EditMenu>
-          {Object.keys(Menu).map((item) => (
-            <S.EditMenuItem
-              ref={editButton}
-              key={item}
-              onClick={onClickHandler}
-            >
+          {Object.keys(Menu).map((item, i) => (
+            <S.EditMenuItem key={item} ref={(el) => editButton.current[i]= el} onClick={(event) => onClickHandler(event, editButton.current[i])}>
               {item}
             </S.EditMenuItem>
           ))}
