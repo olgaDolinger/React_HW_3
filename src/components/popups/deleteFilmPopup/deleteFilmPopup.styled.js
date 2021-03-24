@@ -42,6 +42,13 @@ export const ConfirmButton = styled.div`
   }
 `;
 
+export const ErrorMessage = styled.div`
+  display: block;
+  color: red;
+  padding: 40px 50px 30px;
+  text-align: inherit;
+`;
+
 export const DeletePopup = styled.div`
   height: 300px;
   width: 500px;

@@ -1,36 +1,48 @@
-import React, {useMemo} from "react";
+import React from "react";
 import * as S from "./deleteFilmPopup.styled";
 import * as PropTypes from "prop-types";
+import * as ReactDOM from "react-dom";
 
-const DeleteFilmPopup = ({close, popup, data, confirmPopup}) =>
-  useMemo(() => {
-    const closePopup = () => {
-      close();
-    };
+const DeleteFilmPopup = (props) => {
+  const { closePopup, confirmPopup, isOpened, error } = props;
+  const el = document.getElementById("root");
 
-    const onConfirm = () => {
-      confirmPopup({
-        action: popup,
-        popupData: data,
-      });
-    };
+  const onClickClose = () => {
+    closePopup();
+  };
 
+  const onClickConfirm = () => {
+    confirmPopup();
+  };
+
+  const hasError = () => {
+    return error != undefined;
+  };
+
+  const showPopup = () => {
     return (
-      <S.Back>
-        <S.DeletePopup>
-          <S.CloseButton onClick={closePopup}>X</S.CloseButton>
-          <S.Title>DELETE MOVIE</S.Title>
-          <S.Message>Are you sure you want to delete this movie?</S.Message>
-          <S.ConfirmButton onClick={onConfirm}>CONFIRM</S.ConfirmButton>
-        </S.DeletePopup>
-      </S.Back>
+      isOpened && (
+        <S.Back>
+          <S.DeletePopup>
+            <S.CloseButton onClick={onClickClose}>X</S.CloseButton>
+            <S.Title>DELETE MOVIE</S.Title>
+            <S.Message>Are you sure you want to delete this movie?</S.Message>
+            <S.ConfirmButton onClick={onClickConfirm}>CONFIRM</S.ConfirmButton>
+            {hasError() && <S.ErrorMessage>{error}</S.ErrorMessage>}
+          </S.DeletePopup>
+        </S.Back>
+      )
     );
-  }, [data]);
+  };
+
+  return ReactDOM.createPortal(showPopup(), el);
+};
 
 DeleteFilmPopup.propTypes = {
+  error: PropTypes.object.isRequired,
+  isOpened: PropTypes.bool.isRequired,
+  closePopup: PropTypes.func.isRequired,
   confirmPopup: PropTypes.func.isRequired,
-  popup: PropTypes.string.isRequired,
-  data: PropTypes.number.isRequired,
 };
 
 export default DeleteFilmPopup;

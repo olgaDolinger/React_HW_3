@@ -2,19 +2,11 @@ import React from "react";
 import * as S from "./SortingMenu.styled";
 import DropDown from "./drop-down/DropDown";
 
-const Categories = {
-  ALL: "ALL",
-  DOCUMENTARY: "DOCUMENTARY",
-  COMEDY: "COMEDY",
-  HORROR: "HORROR",
-  CRIME: "CRIME",
-};
-
-const SortingMenu = () => {
+const SortingMenu = (params) => {
   return (
       <S.SortingMenu>
         <S.SortingMenuLabel>SORT BY</S.SortingMenuLabel>
-        <DropDown />
+        <DropDown sortBy={params.sortBy}/>
       </S.SortingMenu>
   );
 };

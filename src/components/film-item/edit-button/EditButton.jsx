@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import * as S from "./EditButton.styled";
-import bgImage from "../../../assets/images/inner-grey.svg";
+import bgImage from "assets/images/inner-grey.svg";
 import PropTypes from "prop-types";
+import * as S from "./EditButton.styled";
 
 const EditButton = (props) => {
   const [isMenuVisible, setMenuVisible] = useState(false);
@@ -34,7 +34,11 @@ const EditButton = (props) => {
       {isMenuVisible && (
         <S.EditMenu>
           {Object.keys(Menu).map((item, i) => (
-            <S.EditMenuItem key={item} ref={(el) => editButton.current[i]= el} onClick={(event) => onClickHandler(event, editButton.current[i])}>
+            <S.EditMenuItem
+              key={item}
+              ref={(el) => (editButton.current[i] = el)}
+              onClick={(event) => onClickHandler(event, editButton.current[i])}
+            >
               {item}
             </S.EditMenuItem>
           ))}
