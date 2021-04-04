@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from "react";
-import MovieDetails from "./movie-details/MovieDetails";
-import HeaderMain from "./header-main/HeaderMain";
+import React from "react";
+import { connect } from "react-redux";
+import HeaderMainContainer from "./header-main/HeaderMainContainer";
+import MovieDetailsContainer from "./movie-details/MovieDetailsContainer";
 import * as S from "./HeaderContainer.styled";
 
 const HeaderContainer = (props) => {
-  const [isGlobalHeader, setIsGlobalHeader] = useState(true);
-
-  useEffect(() => {
-      setIsGlobalHeader(props.data === null);
-  }, [props.data]);
+  const { isDetailsView } = props;
 
   const closeView = () => {
-    setIsGlobalHeader(true);
-    props.closeMovieDetails();
+    console.log("closeView Details");
   };
 
   return (
     <S.Header>
-      {isGlobalHeader && <HeaderMain addMovie={props.addMovie} />}
-      {!isGlobalHeader && (
-        <MovieDetails data={props.data} closeView={closeView} />
-      )}
+      {!isDetailsView && <HeaderMainContainer />}
+      {isDetailsView && <MovieDetailsContainer />}
     </S.Header>
   );
 };
 
-export default HeaderContainer;
+const mapStateToProps = (state) => {
+  const { headerView } = state;
+  const isDetailsView = headerView.isDetailsView;
+  return { isDetailsView };
+};
+
+export default connect(mapStateToProps)(HeaderContainer);

@@ -3,18 +3,26 @@ import { Categories } from "../../utils/Categories";
 import * as S from "./multy-select.styled";
 
 const categories = [
-  { value: "0", label: Categories.ActionAdventure },
-  { value: "1", label: Categories.Biography },
-  { value: "2", label: Categories.Music },
-  { value: "3", label: Categories.OscarWinningFilm },
+  { value: "1", label: Categories.Action },
+  { value: "2", label: Categories.Adventure},
+  { value: "3", label: Categories.Animation},
+  { value: "4", label: Categories.Biography },
+  { value: "5", label: Categories.Comedy },
+  { value: "6", label: Categories.Drama },
+  { value: "7", label: Categories.Family },
+  { value: "8", label: Categories.Fantasy },
+  { value: "9", label: Categories.Music},
+  { value: "10", label: Categories.OscarWinningFilm },
+  { value: "11", label: Categories.Romance },
+  { value: "12", label: Categories.ScienceFiction },
 ];
 
 const useGetSelected = (data) => {
   return useMemo(() => {
     let res = [];
-    data.forEach((category) => {
+    data.forEach((genres) => {
       const value = categories.find((item) => {
-        return item.label === category;
+        return item.label === genres;
       });
       res.push(value);
     });
@@ -60,11 +68,11 @@ const MultiSelect = (props) => {
   const categoriesSelected = useGetSelected(props.selected);
 
   const onCategoryChange = (selected) => {
-    const category = [];
+    const genres = [];
     selected.forEach((item) => {
-      category.push(item.label);
+      genres.push(item.label);
     });
-    props.onCategoryChange(category);
+    props.onCategoryChange(genres);
   };
 
   return (

@@ -1,14 +1,12 @@
 import React from "react";
 import LogoText from "../../components/logoText/LogoText";
 import Search from "../../components/search/Search";
-import { Actions } from "../../utils/Categories";
 import * as PropTypes from "prop-types";
 import * as S from "./HeaderMain.styled";
 
 const HeaderMain = (props) => {
   const onClick = () => {
-    const payload = { action: Actions.addFilm, data: "" };
-    props.addMovie(payload);
+    props.addMovieClicked();
   };
 
   return (
@@ -26,7 +24,7 @@ const HeaderMain = (props) => {
 };
 
 HeaderMain.propTypes = {
-  addMovie: PropTypes.func.isRequired,
+    addMovieClicked: PropTypes.func.isRequired,
 };
 
 export default HeaderMain;

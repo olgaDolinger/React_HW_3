@@ -5,27 +5,27 @@ import * as S from "./MovieDetails.styled";
 import * as PropTypes from "prop-types";
 
 const MovieDetails = (props) => {
+    const {data, closeView} = props;
+
   return (
     <S.MovieDetails>
       <S.TopHeader>
         <LogoText />
         <S.Close
           src={bgImage}
-          onClick={() => {
-            props.closeView();
-          }}
+          onClick={closeView}
         />
       </S.TopHeader>
       <S.TopHeader>
-        <S.MovieImage src={props.data.url} />
+        <S.MovieImage src={data.poster_path} onerror="https://images-na.ssl-images-amazon.com/images/I/51KkPjIAcoL._SX300_.jpg"/>
         <S.TextBlock>
-          <S.MovieTitle>{props.data.title}</S.MovieTitle>
-          <S.MovieCategory>{props.data.category}</S.MovieCategory>
+          <S.MovieTitle>{data.title}</S.MovieTitle>
+          <S.MovieCategory>{data.genres}</S.MovieCategory>
           <S.YearRuntime>
-            <S.MovieYear>{props.data.year}</S.MovieYear>
-            <S.MovieRunTime>{props.data.runtime}</S.MovieRunTime>
+            <S.MovieYear>{data.release_date}</S.MovieYear>
+            <S.MovieRunTime>{data.runtime}</S.MovieRunTime>
           </S.YearRuntime>
-          <S.MovieDescription>{props.data.overview}</S.MovieDescription>
+          <S.MovieDescription>{data.overview}</S.MovieDescription>
         </S.TextBlock>
       </S.TopHeader>
     </S.MovieDetails>

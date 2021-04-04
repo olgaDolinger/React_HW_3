@@ -1,9 +1,16 @@
 export const Categories = {
-  ActionAdventure: "Action & Adventure",
+  Action: "Action",
   Drama: "Drama",
   Biography: "Biography",
   Music: "Music",
   OscarWinningFilm: "OscarWinningFilm",
+  Animation: "Animation",
+  Adventure: "Adventure",
+  Family: "Family",
+  Comedy: "Comedy",
+  Fantasy: "Fantasy",
+  ScienceFiction: "Science Fiction",
+  Romance: "Romance",
 };
 
 export const Actions = {
