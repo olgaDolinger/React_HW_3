@@ -39,7 +39,6 @@ const DeleteFilmPopup = (props) => {
 };
 
 DeleteFilmPopup.propTypes = {
-  error: PropTypes.object.isRequired,
   isOpened: PropTypes.bool.isRequired,
   closePopup: PropTypes.func.isRequired,
   confirmPopup: PropTypes.func.isRequired,

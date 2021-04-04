@@ -2,6 +2,7 @@ import ACTIONS from "./actionTypes";
 import axios from "axios";
 import { CONSTANTS } from "../utils/Constants";
 import { deleteMovieError, parseInitData } from "../utils/Parsers";
+import {formatDate} from "components/popups/components/helper";
 
 const getInitialData = (sortBy = "", filter = []) => (
   dispatch
@@ -82,7 +83,9 @@ const editMovie = (filmData) => (dispatch) => {
     .then((resp) => {
       switch (resp.status) {
         case 200: {
-          dispatch({ type: ACTIONS.EDIT_MOVIE, payload: filmData });
+          resp.data.release_date = formatDate(new Date(resp.data.release_date));
+          const payload = Object.assign(filmData,  resp.data);
+          dispatch({ type: ACTIONS.EDIT_MOVIE, payload });
           break;
         }
         case 204: {

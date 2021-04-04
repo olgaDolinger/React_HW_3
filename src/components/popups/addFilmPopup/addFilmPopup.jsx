@@ -1,115 +1,126 @@
-import React, { useState } from "react";
-import * as S from "./addFilmPopup.styled";
-import MultiSelect from "../../multy-select/multy-select";
-import * as PropTypes from "prop-types";
+import React from "react";
+import { Formik, Form } from "formik";
 import * as ReactDOM from "react-dom";
+import FormInput from "../components/formInput/formInput";
+import * as S from "../stylePopup.styled";
+import {
+  validateObject,
+  validateRuntime,
+  validateURL,
+} from "../components/helper";
+import * as PropTypes from "prop-types";
+import FormSelect from "../components/formSelect/formSelect";
+import { Categories } from "utils/Categories";
+import FormDatePicker from "../components/formDatePicker/formDatePicker";
 
 const AddFilmPopup = (props) => {
   const el = document.getElementById("root");
-
-  const [title, setTitle] = useState("");
-  const [genres, setCategory] = useState([]);
-  const [release_date, setYear] = useState("");
-  const [poster_path, setUrl] = useState("");
-  const [overview, setOverview] = useState("");
-  const [runtime, setRuntime] = useState(0);
-
-  const onTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
-
-  const onCategoryChange = (genres) => {
-    setCategory(genres);
-  };
-
-  const onYearChange = (event) => {
-    const data = event.target.value;
-    if (/^(\d){0,4}$/g.test(data)) {
-      setYear(new Date(data).toISOString().slice(0, 10));
-    }
-  };
-
-  const onUrlChange = (event) => {
-    setUrl(event.target.value);
-  };
-
-  const onOverviewChange = (event) => {
-    setOverview(event.target.value);
-  };
-
-  const onRuntimeChange = (event) => {
-    const data = event.target.value;
-    if (/^(\d){0,30}$/g.test(data)) {
-      setRuntime( parseInt(data));
-    }
-  };
 
   const closePopup = () => {
     props.closePopup();
   };
 
-  const onReset = () => {
-    setTitle("");
-    setCategory([]);
-    setYear("");
-    setUrl("");
-    setOverview("");
-    setRuntime(0);
-  };
+  const onSubmit = (values, { setSubmitting }) => {
+    const payload = Object.assign(values, {
+      release_date:values.release_date.toISOString(),
+      runtime: parseInt(values.runtime),
+      genres: values.genres,
+    });
 
-  const onConfirm = () => {
-    props.addMovieSubmit(
-      {
-        title: title,
-        genres: genres,
-        release_date: release_date,
-        poster_path: poster_path,
-        overview: overview,
-        runtime: runtime,
-      });
+    props.addMovieSubmit(payload);
+    setSubmitting(false);
   };
 
   const showPopup = () => {
     return (
-        <S.Back>
-          <S.AddPopup>
-            <S.CloseButton onClick={closePopup}>X</S.CloseButton>
-            <S.Title>ADD MOVIE</S.Title>
+      <S.Back>
+        <S.AddPopup>
+          <S.CloseButton onClick={closePopup}>X</S.CloseButton>
+          <S.Title>ADD MOVIE</S.Title>
+          <Formik
+            initialValues={{
+              title: "",
+              release_date: new Date(),
+              poster_path: "",
+              overview: "",
+              genres: [],
+              runtime: "0",
+            }}
+            validationSchema={validateObject}
+            onSubmit={onSubmit}
+          >
+            <Form>
+              <FormInput
+                label="TITLE"
+                name="title"
+                type="text"
+                placeholder="Title"
+              />
 
-            <S.Label>TITLE</S.Label>
-            <S.Input value={title} onChange={onTitleChange} />
+              <FormDatePicker
+                label="RELEASE DATE"
+                name="release_date"
+                type="text"
+                placeholder="Release data"
+              />
 
-            <S.Label>RELEASE DATE</S.Label>
-            <S.Input value={release_date} onChange={onYearChange} />
+              <FormInput
+                label="MOVIE URL"
+                name="poster_path"
+                type="text"
+                validate={validateURL}
+                placeholder="Movie URL"
+              />
 
-            <S.Label>MOVIE URL</S.Label>
-            <S.TextArea value={poster_path} onChange={onUrlChange} />
+              <FormSelect label="GENRE" name="genres" multiple={true}>
+                <option value="empty">Select a genre</option>
+                <option value={Categories.Action}>{Categories.Action}</option>
+                <option value={Categories.Adventure}>
+                  {Categories.Adventure}
+                </option>
+                <option value={Categories.Animation}>
+                  {Categories.Animation}
+                </option>
+                <option value={Categories.Biography}>
+                  {Categories.Biography}
+                </option>
+                <option value={Categories.Comedy}>{Categories.Comedy}</option>
+                <option value={Categories.Fantasy}>{Categories.Fantasy}</option>
+                <option value={Categories.Family}>{Categories.Family}</option>
+                <option value={Categories.Music}>{Categories.Music}</option>
+                <option value={Categories.OscarWinningFilm}>
+                  {Categories.OscarWinningFilm}
+                </option>
+                <option value={Categories.Romance}>{Categories.Romance}</option>
+                <option value={Categories.ScienceFiction}>
+                  {Categories.ScienceFiction}
+                </option>
+              </FormSelect>
 
-            <S.Label>GENRE</S.Label>
-            <MultiSelect
-              onCategoryChange={onCategoryChange}
-              selected={genres}
-            />
+              <FormInput
+                label="OVERVIEW"
+                name="overview"
+                type="text"
+                placeholder="Overview"
+              />
 
-            <S.Label>OVERVIEW</S.Label>
-            <S.TextArea
-              value={overview}
-              onChange={onOverviewChange}
-            />
+              <FormInput
+                label="RUNTIME"
+                name="runtime"
+                type="text"
+                validate={validateRuntime}
+                placeholder="Runtime"
+              />
 
-            <S.Label>RUNTIME</S.Label>
-            <S.Input
-              value={runtime}
-              onChange={onRuntimeChange}
-            />
-
-            <S.Buttons>
-              <S.ConfirmButton onClick={onConfirm}>SUBMIT</S.ConfirmButton>
-              <S.ResetButton onClick={onReset}>RESET</S.ResetButton>
-            </S.Buttons>
-          </S.AddPopup>
-        </S.Back>
-      )
+              <S.Buttons>
+                <S.ButtonReset type="submit">RESET</S.ButtonReset>
+                <S.ButtonSubmit type="submit">SUBMIT</S.ButtonSubmit>
+              </S.Buttons>
+            </Form>
+          </Formik>
+        </S.AddPopup>
+      </S.Back>
+    );
   };
 
   return ReactDOM.createPortal(showPopup(), el);
