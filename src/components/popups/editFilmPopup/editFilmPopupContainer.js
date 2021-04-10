@@ -11,6 +11,7 @@ const EditFilmPopupContainer = (props) => {
   };
 
   const onSubmit = (data) => {
+    closePopup();
     confirmEditPopup(data);
   };
 
@@ -19,8 +20,8 @@ const EditFilmPopupContainer = (props) => {
       {isEditMoviePopup && (
         <EditFilmPopup
           data={movieData}
-          onClose={onClose}
-          onSubmit={onSubmit}
+          closePopup={onClose}
+          editMovieSubmit={onSubmit}
           isOpened={isEditMoviePopup}
         />
       )}

@@ -10,3 +10,9 @@ export const MultiSelect = styled(Select)`
   background-color: #1c1c1c;
   border: none;
 `;
+
+export const Label = styled.label`
+  font-size: 18px;
+  padding-left: 30px;
+  padding-top: 20px;
+`;

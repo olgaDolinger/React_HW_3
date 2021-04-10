@@ -1,120 +1,144 @@
-import React, { useEffect, useState } from "react";
-import MultiSelect from "../../multy-select/multy-select";
-import * as PropTypes from "prop-types";
-import * as S from "./editFilmPopup.styled";
+import React from "react";
+import { Formik, Form } from "formik";
 import * as ReactDOM from "react-dom";
+import FormInput from "../components/formInput/formInput";
+import * as S from "../stylePopup.styled";
+import * as D from "../components/popupComponents.styled";
+import {
+  validateObject,
+  validateRuntime,
+  validateURL,
+} from "../components/helper";
+import * as PropTypes from "prop-types";
+import FormSelect from "../components/formSelect/formSelect";
+import { Categories } from "utils/Categories";
+import FormDatePicker from "../components/formDatePicker/formDatePicker";
 
 const EditFilmPopup = (props) => {
   const el = document.getElementById("root");
-  const { data, onClose, onSubmit } = props;
-
-  const [title, setTitle] = useState("");
-  const [genres, setCategory] = useState([]);
-  const [release_date, setYear] = useState("");
-  const [poster_path, setURL] = useState("");
-  const [overview, setOverview] = useState("");
-  const [runtime, setRuntime] = useState("");
-
-  const onTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
-
-  const onCategoryChange = (genres) => {
-    setCategory(genres);
-  };
-
-  const onYearChange = (event) => {
-    setYear(event.target.value);
-  };
-
-  const onUrlChange = (event) => {
-    setURL(event.target.value);
-  };
-
-  const onOverviewChange = (event) => {
-    setOverview(event.target.value);
-  };
-
-  const onRuntimeChange = (event) => {
-    setRuntime(event.target.value);
-  };
 
   const closePopup = () => {
-    onClose();
+    props.closePopup();
   };
 
-  const onSubmitClick = () => {
-    const updatedData = Object.assign(data, {
-      id: data.id,
-      title,
-      genres,
-      release_date,
-      poster_path,
-      overview,
-      runtime,
+  const onSubmit = (values, { setSubmitting }) => {
+    const payload = Object.assign(props.data, {
+      id: props.data.id,
+      title: values.title,
+      genres: [values.genres],
+      release_date: values.release_date.toISOString(),
+      poster_path: values.poster_path,
+      overview: values.overview,
+      runtime: parseInt(values.runtime),
     });
-    onSubmit(updatedData);
-  };
 
-  const setInitial = () => {
-    setTitle(props.data.title);
-    setCategory(props.data.genres);
-    setYear(props.data.release_date);
-    setURL(props.data.poster_path);
-    setOverview(props.data.overview);
-    setRuntime(props.data.runtime);
+    props.editMovieSubmit(payload);
+    setSubmitting(false);
   };
-
-  useEffect(() => {
-      setInitial();
-  }, []);
 
   const showPopup = () => {
     return (
-        <S.Back>
-          <S.EditPopup>
-            <S.CloseButton onClick={closePopup}>X</S.CloseButton>
-            <S.Title>EDIT MOVIE</S.Title>
+      <S.Back>
+        <S.AddPopup>
+          <S.CloseButton onClick={closePopup}>X</S.CloseButton>
+          <S.Title>EDIT MOVIE</S.Title>
+          <Formik
+            initialValues={{
+              title: props.data.title,
+              release_date: new Date(props.data.release_date),
+              poster_path: props.data.poster_path,
+              overview: props.data.overview,
+              genres: props.data.genres[0],
+              runtime: props.data.runtime,
+            }}
+            validationSchema={validateObject}
+            onSubmit={onSubmit}
+          >
+            <Form>
+              <D.IdBlock>
+                <D.Label>MOVIE ID</D.Label>
+                <D.Id>{props.data.id}</D.Id>
+              </D.IdBlock>
 
-            <S.Label>MOVIE ID</S.Label>
-            <S.Label>{data.id}</S.Label>
+              <FormInput
+                label="TITLE"
+                name="title"
+                type="text"
+                placeholder="Title"
+              />
 
-            <S.Label>TITLE</S.Label>
-            <S.Input value={title} onChange={onTitleChange} />
+              <FormDatePicker
+                label="RELEASE DATE"
+                name="release_date"
+                type="text"
+                placeholder="Release data"
+              />
 
-            <S.Label>RELEASE DATE</S.Label>
-            <S.Input value={release_date} onChange={onYearChange} />
+              <FormInput
+                label="MOVIE URL"
+                name="poster_path"
+                type="text"
+                validate={validateURL}
+                placeholder="Movie URL"
+              />
 
-            <S.Label>MOVIE URL</S.Label>
-            <S.TextArea value={poster_path} onChange={onUrlChange} />
+              <FormSelect label="GENRE" name="genres">
+                <option value="">Select a genre</option>
+                <option value={Categories.Action}>{Categories.Action}</option>
+                <option value={Categories.Adventure}>
+                  {Categories.Adventure}
+                </option>
+                <option value={Categories.Animation}>
+                  {Categories.Animation}
+                </option>
+                <option value={Categories.Biography}>
+                  {Categories.Biography}
+                </option>
+                <option value={Categories.Comedy}>{Categories.Comedy}</option>
+                <option value={Categories.Fantasy}>{Categories.Fantasy}</option>
+                <option value={Categories.Family}>{Categories.Family}</option>
+                <option value={Categories.Music}>{Categories.Music}</option>
+                <option value={Categories.OscarWinningFilm}>
+                  {Categories.OscarWinningFilm}
+                </option>
+                <option value={Categories.Romance}>{Categories.Romance}</option>
+                <option value={Categories.ScienceFiction}>
+                  {Categories.ScienceFiction}
+                </option>
+              </FormSelect>
 
-            <S.Label>GENRE</S.Label>
-            <MultiSelect
-              onCategoryChange={onCategoryChange}
-              selected={genres}
-            />
+              <FormInput
+                label="OVERVIEW"
+                name="overview"
+                type="text"
+                placeholder="Overview"
+              />
 
-            <S.Label>OVERVIEW</S.Label>
-            <S.TextArea value={overview} onChange={onOverviewChange} />
+              <FormInput
+                label="RUNTIME"
+                name="runtime"
+                type="text"
+                validate={validateRuntime}
+                placeholder="Runtime"
+              />
 
-            <S.Label>RUNTIME</S.Label>
-            <S.Input value={runtime} onChange={onRuntimeChange} />
-
-            <S.Buttons>
-              <S.ConfirmButton onClick={onSubmitClick}>CONFIRM</S.ConfirmButton>
-              <S.ResetButton onClick={setInitial}>RESET</S.ResetButton>
-            </S.Buttons>
-          </S.EditPopup>
-        </S.Back>
-      )
+              <S.Buttons>
+                <S.ButtonReset type="submit">RESET</S.ButtonReset>
+                <S.ButtonSubmit type="submit">SUBMIT</S.ButtonSubmit>
+              </S.Buttons>
+            </Form>
+          </Formik>
+        </S.AddPopup>
+      </S.Back>
+    );
   };
 
   return ReactDOM.createPortal(showPopup(), el);
 };
-export default EditFilmPopup;
 
 EditFilmPopup.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  data: PropTypes.object.isRequired,
+  editMovieSubmit: PropTypes.func.isRequired,
+  closePopup: PropTypes.func.isRequired,
 };
+
+export default EditFilmPopup;

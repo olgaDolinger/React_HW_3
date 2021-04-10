@@ -1,17 +1,18 @@
 import React, { useMemo } from "react";
-import { Categories } from "../../utils/Categories";
+import { Categories } from "../../../../utils/Categories";
 import * as S from "./multy-select.styled";
+import { useField } from "formik";
 
 const categories = [
   { value: "1", label: Categories.Action },
-  { value: "2", label: Categories.Adventure},
-  { value: "3", label: Categories.Animation},
+  { value: "2", label: Categories.Adventure },
+  { value: "3", label: Categories.Animation },
   { value: "4", label: Categories.Biography },
   { value: "5", label: Categories.Comedy },
   { value: "6", label: Categories.Drama },
   { value: "7", label: Categories.Family },
   { value: "8", label: Categories.Fantasy },
-  { value: "9", label: Categories.Music},
+  { value: "9", label: Categories.Music },
   { value: "10", label: Categories.OscarWinningFilm },
   { value: "11", label: Categories.Romance },
   { value: "12", label: Categories.ScienceFiction },
@@ -33,7 +34,7 @@ const useGetSelected = (data) => {
 const MultiSelect = (props) => {
   const colourStyles = {
     control: (styles) => ({ ...styles, backgroundColor: "#232323" }),
-    option: (styles, ) => {
+    option: (styles) => {
       return {
         ...styles,
         backgroundColor: "#ffffff",
@@ -46,7 +47,7 @@ const MultiSelect = (props) => {
         },
       };
     },
-    multiValue: (styles ) => {
+    multiValue: (styles) => {
       return {
         ...styles,
         backgroundColor: "#FB6876",
@@ -66,23 +67,27 @@ const MultiSelect = (props) => {
     }),
   };
   const categoriesSelected = useGetSelected(props.selected);
+  const [field, meta] = useField(props);
 
   const onCategoryChange = (selected) => {
     const genres = [];
     selected.forEach((item) => {
       genres.push(item.label);
     });
-    props.onCategoryChange(genres);
+   // props.onCategoryChange(genres);
   };
 
   return (
-    <S.MultiSelect
-      value={categoriesSelected}
-      styles={colourStyles}
-      isMulti
-      options={categories}
-      onChange={onCategoryChange}
-    />
+    <S.Select>
+      <S.Label>GENRE</S.Label>
+      <S.MultiSelect
+        value={categoriesSelected}
+        styles={colourStyles}
+        isMulti
+        options={categories}
+        onChange={onCategoryChange}
+      />
+    </S.Select>
   );
 };
 

@@ -18,75 +18,49 @@ export const CloseButton = styled.div`
   float: right;
   font-size: 16px;
 `;
-export const Input = styled.input`
-  width: 400px;
-  height: 30px;
-  margin: 2px 25px;
-  font-size: 16px;
-  font-weight: normal;
-  border-radius: 3px;
-  background-color: #1c1c1c;
-  color: white;
-  border: none;
-`;
-export const TextArea = styled.textarea`
-  width: 400px;
-  height: 30px;
-  margin: 2px 25px;
-  font-size: 16px;
-  font-weight: normal;
-  border-radius: 3px;
-  background-color: #1c1c1c;
-  color: white;
-  border: none;
-`;
 
 export const Title = styled.div`
   font-size: 24px;
   padding-top: 80px;
   padding-left: 30px;
 `;
-export const Label = styled.div`
-  font-size: 18px;
-  padding-left: 30px;
-  padding-top: 20px;
-`;
-export const ConfirmButton = styled.div`
-  float: right;
-  background-color: #f65261;
-  width: 180px;
-  padding: 10px;
-  color: white;
-  text-align: center;
-  font-size: 16px;
-  border-radius: 3px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #fb6876;
-  }
-`;
-export const ResetButton = styled.div`
-  width: 180px;
-  padding: 10px;
-  float: right;
-  text-align: center;
-  margin: auto 5px;
-  font-size: 16px;
-  background-color: #232323;
-  color: #f65261;
-  border: 1px solid;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #fb6876;
-  }
-`;
 
 export const Buttons = styled.div`
   padding-top: 50px;
-  padding-right: 20px;
+  float: right;
+  margin: 0 70px;
+`;
+
+export const ButtonSubmit = styled.button`
+  background-color: #f65261;
+  color: white;
+  width: 180px;
+  padding: 10px;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 3px;
+  border-style: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #fb6876;
+  }
+`;
+
+export const ButtonReset = styled.button`
+  background-color: #232323;
+  color: #f65261;
+  width: 180px;
+  padding: 10px;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 3px;
+  border: 1px solid;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #332728;
+  }
 `;
 
 export const AddPopup = styled.div`
