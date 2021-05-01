@@ -1,28 +1,21 @@
 import React from "react";
-import { connect } from "react-redux";
 import HeaderMainContainer from "./header-main/HeaderMainContainer";
 import MovieDetailsContainer from "./movie-details/MovieDetailsContainer";
 import * as S from "./HeaderContainer.styled";
+import {Route, Switch} from "react-router";
 
-const HeaderContainer = (props) => {
-  const { isDetailsView } = props;
-
-  const closeView = () => {
-    console.log("closeView Details");
-  };
+const HeaderContainer = () => {
 
   return (
     <S.Header>
-      {!isDetailsView && <HeaderMainContainer />}
-      {isDetailsView && <MovieDetailsContainer />}
+      <Switch>
+        <Route path='/film/:id' component={MovieDetailsContainer}/>
+        <Route path='/' component={HeaderMainContainer}/>
+      </Switch>
     </S.Header>
   );
 };
 
-const mapStateToProps = (state) => {
-  const { headerView } = state;
-  const isDetailsView = headerView.isDetailsView;
-  return { isDetailsView };
-};
 
-export default connect(mapStateToProps)(HeaderContainer);
+
+export default HeaderContainer;
