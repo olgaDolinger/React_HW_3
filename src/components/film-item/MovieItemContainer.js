@@ -3,11 +3,18 @@ import MovieItem from "./MovieItem";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import * as Actions from "store/actionCreators";
+import { useHistory } from "react-router-dom";
 
 const MovieItemContainer = (props) => {
   const { filmData, editFilm, deleteFilm } = props;
+  let history = useHistory();
 
   const onMovieClick = (filmData) => {
+    if (filmData) {
+      history.push('/');
+      history.push(`film/${filmData.id}`);
+    }
+
     props.showDetails(filmData);
   };
 

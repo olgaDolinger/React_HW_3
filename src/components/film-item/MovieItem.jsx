@@ -2,10 +2,12 @@ import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import EditButton from "./edit-button/EditButton";
 import * as S from "./MovieItem.styled";
+import { useHistory } from "react-router-dom";
 
 const MovieItem = (props) => {
   const { filmData } = props;
   const [isEditButtonVisible, setEditButtonVisible] = useState(false);
+  const history = useHistory();
 
   const onMouseEnter = useCallback(() => {
     setEditButtonVisible(true);
@@ -17,7 +19,7 @@ const MovieItem = (props) => {
 
   const onEditButton = useCallback(() => {
     props.editFilm(filmData);
-  },[filmData]);
+  }, [filmData]);
 
   const onDelete = () => {
     props.deleteFilm(filmData);
@@ -26,6 +28,10 @@ const MovieItem = (props) => {
   const onClick = useCallback(() => {
     props.onClick(filmData);
   }, [filmData]);
+
+  const onDataClick = () => {
+    history.push("/notImplementedYet");
+  };
 
   return (
     <S.FilmItem onMouseLeave={onMouseLeave}>
@@ -43,7 +49,7 @@ const MovieItem = (props) => {
       ></S.FilmImage>
       <S.FilmData>
         <div>{filmData.title}</div>
-        <S.FilmYear>{filmData.release_date}</S.FilmYear>
+        <S.FilmYear onClick={onDataClick}>{filmData.release_date}</S.FilmYear>
       </S.FilmData>
       <S.FilmCategory>
         {filmData.genres.map((item, index) => (
