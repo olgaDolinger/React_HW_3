@@ -5,10 +5,11 @@ const items = [{ title: "RELEASE DATE", param:'release_date' }, { title: "USER R
 
 const DropDown = (params) => {
   const [selected, setSelected] = useState(items[0].title);
+  const { sortBy }= params;
 
   const handleChange = (event) => {
     let selected = event.target.value;
-    params.sortBy(selected)
+    sortBy(selected)
     setSelected(selected);
   };
 

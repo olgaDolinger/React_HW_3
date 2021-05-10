@@ -1,12 +1,12 @@
 import * as React from "react";
 import * as S from "./Search.styled";
-import { useHistory } from "react-router-dom";
 
 const Search = (props) => {
   const input = React.createRef();
+  const { onSearchClick } = props;
 
   const onClick = () => {
-    props.onSearchClick(input.current.value);
+    onSearchClick(input.current.value);
     input.current.value = "";
   };
 

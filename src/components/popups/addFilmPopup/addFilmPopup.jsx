@@ -10,7 +10,7 @@ import {
 } from "../components/helper";
 import * as PropTypes from "prop-types";
 import FormSelect from "../components/formSelect/formSelect";
-import { Categories } from "utils/Categories";
+import { Categories } from "../../../utils/Categories";
 import FormDatePicker from "../components/formDatePicker/formDatePicker";
 
 const AddFilmPopup = (props) => {

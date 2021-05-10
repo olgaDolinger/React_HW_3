@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useField } from "formik";
 import DatePicker from "react-datepicker";
 import * as S from "../popupComponents.styled";
-import "react-datepicker/dist/react-datepicker.css";
+//import "react-datepicker/dist/react-datepicker.css";
 
 const FormDatePicker = ({ label, ...props }) => {
   const [field, meta] = useField(props);

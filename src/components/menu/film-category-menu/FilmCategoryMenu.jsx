@@ -12,10 +12,11 @@ const Categories = {
 
 const FilmCategoryMenu = (props) => {
   const genresRef = React.useRef([]);
+  const {getSortedList} = props
 
   const onClickHandler = (event, target) => {
     event.stopPropagation();
-    props.getSortedList(target.innerHTML)
+    getSortedList(target.innerHTML)
   };
 
   return (

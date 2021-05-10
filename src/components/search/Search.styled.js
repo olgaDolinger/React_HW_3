@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import OpenSans from "../../assets/OpenSans-Regular.ttf";
 
 export const Search = styled.div`
   margin: 0 auto;
@@ -35,5 +34,4 @@ export const HeaderMainText = styled.div`
   color: white;
   font-size: 32px;
   margin: 50px 0 0 0;
-  font-family: 'Open Sans';
 `;
