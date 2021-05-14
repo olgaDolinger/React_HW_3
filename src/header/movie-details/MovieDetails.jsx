@@ -5,19 +5,26 @@ import * as S from "./MovieDetails.styled";
 import * as PropTypes from "prop-types";
 
 const MovieDetails = (props) => {
-    const {data, closeView} = props;
+  const { data, closeView } = props;
+  const image = React.useRef();
+
+  const onImageError = () => {
+    image.current.src = 'https://images-na.ssl-images-amazon.com/images/I/51KkPjIAcoL._SX300_.jpg'
+  }
+
 
   return (
     <S.MovieDetails>
       <S.TopHeader>
         <LogoText />
-        <S.Close
-          src={bgImage}
-          onClick={closeView}
-        />
+        <S.Close src={bgImage} onClick={closeView} />
       </S.TopHeader>
       <S.TopHeader>
-        <S.MovieImage src={data.poster_path} onerror="https://images-na.ssl-images-amazon.com/images/I/51KkPjIAcoL._SX300_.jpg"/>
+        <S.MovieImage
+          ref={image}
+          src={data.poster_path}
+          onError={onImageError}
+        />
         <S.TextBlock>
           <S.MovieTitle>{data.title}</S.MovieTitle>
           <S.MovieCategory>{data.genres}</S.MovieCategory>

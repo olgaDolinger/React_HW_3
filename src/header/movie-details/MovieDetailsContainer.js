@@ -2,12 +2,15 @@ import React from "react";
 import { connect } from "react-redux";
 import * as Actions from "store/actionCreators";
 import MovieDetails from "./MovieDetails";
+import { useHistory } from "react-router-dom";
 
 const MovieDetailsContainer = (props) => {
   const { movieDetails, closeDetails } = props;
+  let history = useHistory();
 
   const closeView = () => {
-   closeDetails();
+    history.push("/");
+    closeDetails();
   };
 
   return <MovieDetails data={movieDetails} closeView={closeView} />;

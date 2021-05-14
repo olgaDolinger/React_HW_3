@@ -5,8 +5,13 @@ import * as PropTypes from "prop-types";
 import * as S from "./HeaderMain.styled";
 
 const HeaderMain = (props) => {
+
   const onClick = () => {
     props.addMovieClicked();
+  };
+
+  const onSearchClick = (data) => {
+    props.onSearch(data);
   };
 
   return (
@@ -17,14 +22,15 @@ const HeaderMain = (props) => {
       </S.TopHeader>
 
       <S.SearchHeader>
-        <Search />
+        <Search onSearchClick={onSearchClick} />
       </S.SearchHeader>
     </>
   );
 };
 
 HeaderMain.propTypes = {
-    addMovieClicked: PropTypes.func.isRequired,
+  addMovieClicked: PropTypes.func.isRequired,
+  onSearch: PropTypes.func.isRequired,
 };
 
 export default HeaderMain;

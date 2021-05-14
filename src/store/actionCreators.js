@@ -2,16 +2,15 @@ import ACTIONS from "./actionTypes";
 import axios from "axios";
 import { CONSTANTS } from "../utils/Constants";
 import { deleteMovieError, parseInitData } from "../utils/Parsers";
-import {formatDate} from "components/popups/components/helper";
+import { formatDate } from "components/popups/components/helper";
 
-const getInitialData = (sortBy = "", filter = []) => (
-  dispatch
-) => {
-
+const getInitialData = (sortBy = "", search= "",  filter = []) => (dispatch) => {
   const data = {
     sortBy,
     filter,
-    sortOrder: 'asc',
+    search,
+    searchBy: 'title',
+    sortOrder: "asc",
   };
 
   return axios
@@ -26,6 +25,18 @@ const getInitialData = (sortBy = "", filter = []) => (
     .catch((e) => {
       dispatch({ type: ACTIONS.GET_INITIAL_DATA_ERROR, payload: e });
     });
+};
+
+const search = (data) => (dispatch) => {
+  const params = {
+    searchBy: 'title',
+    search: data,
+  };
+
+  return axios
+    .get(CONSTANTS.GET_MOVIES, { params })
+    .then((result) => dispatch({ type: ACTIONS.SEARCH, payload: result }))
+    .catch((e) => dispatch({ type: ACTIONS.SEARCH_ERROR, payload: e }));
 };
 
 const addMovie = (data) => (dispatch) => {
@@ -84,7 +95,7 @@ const editMovie = (filmData) => (dispatch) => {
       switch (resp.status) {
         case 200: {
           resp.data.release_date = formatDate(new Date(resp.data.release_date));
-          const payload = Object.assign(filmData,  resp.data);
+          const payload = Object.assign(filmData, resp.data);
           dispatch({ type: ACTIONS.EDIT_MOVIE, payload });
           break;
         }
@@ -137,6 +148,7 @@ const editMoviePopup = (filmData) => ({
 
 export {
   getInitialData,
+  search,
   addMovie,
   deleteMovie,
   editMovie,

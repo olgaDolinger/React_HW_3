@@ -1,24 +1,28 @@
 import React from "react";
-import HeaderContainer from "./header/HeaderContainer";
-import Footer from "./footer/Footer";
 import * as S from "./App.styled";
 import AddFilmPopupContainer from "./components/popups/addFilmPopup/AddFilmPopupContainer";
-import MovieGalleryContainer from "./main-page/MovieGallery/MovieGalleryContainer";
 import DeleteFilmPopupContainer from "./components/popups/deleteFilmPopup/deleteFilmPopupContainer";
 import EditFilmPopupContainer from "./components/popups/editFilmPopup/editFilmPopupContainer";
+import { Route, Switch } from "react-router-dom";
+import MainPage from "main-page/MainPage";
+import PageNotFound from "pageNotFound/PageNotFound";
 
 const App = () => {
   return (
-    <S.App>
-      <S.GlobalStyle />
-      <div id='popup'/>
-      <AddFilmPopupContainer />
-      <DeleteFilmPopupContainer />
-      <EditFilmPopupContainer />
-      <HeaderContainer />
-      <MovieGalleryContainer/>
-      <Footer />
-    </S.App>
+      <>
+      <S.App>
+        <S.GlobalStyle />
+        <div id="popup" />
+        <AddFilmPopupContainer />
+        <DeleteFilmPopupContainer />
+        <EditFilmPopupContainer />
+      </S.App>
+
+      <Switch>
+        <Route path="/notImplementedYet" component={PageNotFound} />
+        <Route path="/" component={MainPage} />
+      </Switch>
+      </>
   );
 };
 export default App;
